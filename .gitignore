@@ -1,0 +1,11 @@
+# vs folder
+.vs
+# .NET compiled files
+Resorg/bin
+Resorg/obj
+Resorg.Android/bin
+Resorg.Android/obj
+Resorg.UWP/bin
+Resorg.UWP/obj
+Resorg.iOS/bin
+Resorg.iOS/obj
