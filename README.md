@@ -1,61 +1,16 @@
 
-Android:...[![Build Status](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_apis/build/status/mwambaro.HomeFinances.Xamarin?branchName=Cloud-Storage-Support)](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_build/latest?definitionId=2&branchName=Cloud-Storage-Support)
+Android:...[![Build Status](https://dev.azure.com/onkezabahizi/Resorg/_apis/build/status/android.azure.pipelines.resorg?branchName=master)](https://dev.azure.com/onkezabahizi/Resorg/_build/latest?definitionId=6&branchName=master)
 
-UWP:.........[![Build Status](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_apis/build/status/mwambaro.HomeFinances.Xamarin%20(1)?branchName=Cloud-Storage-Support)](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_build/latest?definitionId=3&branchName=Cloud-Storage-Support)
+UWP:.........[![Build Status](https://dev.azure.com/onkezabahizi/Resorg/_apis/build/status/uwp.azure.pipelines.resorg?branchName=master)](https://dev.azure.com/onkezabahizi/Resorg/_build/latest?definitionId=5&branchName=master)
 
-iOS:...........[![Build Status](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_apis/build/status/mwambaro.HomeFinances.Xamarin%20(2)?branchName=Cloud-Storage-Support)](https://dev.azure.com/onkezabahizi/HomeFinancesXamarin/_build/latest?definitionId=4&branchName=Cloud-Storage-Support)
+iOS:...........[![Build Status](https://dev.azure.com/onkezabahizi/Resorg/_apis/build/status/ios.azure.pipelines.resorg?branchName=master)](https://dev.azure.com/onkezabahizi/Resorg/_build/latest?definitionId=7&branchName=master)
 
 
-# Home Finances
+# Research Resources Organization (Resorg) App
 
-This App handles the finances of a family according to rules of universal justice.
-It assumes the family has income from their labour and from what the government owes them.
-That is, their share on resources that support human existence. Also, they have some cloud
-storage services to keep their data safe and available from any device in a centralized way.
-We plan to support OneDrive, Google Drive, at least their free-version usage.
+Research can be time and resource consuming. You do not want your research results to be lost since you will need them next time you come across difficulties. You must be able to achieve the goal of organizing, accessing, displaying, storing, and restoring those research results that mean the world to you. It must be noted that this is not just another media library or media storage application. It reflects the way you organize knowledge in your mind, so tidy and neat that the knowledge pieces become available any time you need them. Think of it as your mind with the bonus of sensible solution to memory loss, forgetfulness, and orderliness mind problems. 
 
-# UML-like Diagrams
-
-### HomeFinances App Diagram
-
-![App Diagram](Diagrams/Image/HomeFinances.jpg)
-
-### Reformed Trade System
-
-![Integration Diagram](Diagrams/Image/Reforming-Trade-System.jpg)
-
-### World Trade System Diagram
-
-![World Trade System Diagram](Diagrams/Image/World-Trade-System.jpg)
-
-### Permanent Stage of World Trade System
-
-![Judah Committee 08](Diagrams/Image/WII.jpg)
-
-# Screenshots
-
-### Log In View
-
-![LogIn](Screenshots/LoginPage.PNG)
-
-### Sign Up View
-
-![Signup](Screenshots/SignupPage.PNG)
-
-### Data Items Display
-
-![DataItems](Screenshots/DataItemsDisplay.PNG)
-
-### Item Details View
-
-![ItemDetails](Screenshots/DataItemDisplay.PNG)
-
-### New Item View!
-
-![NewItemView](Screenshots/NewItemPage.PNG)
 
 # Author
 
 [Obed-Edom](onkezabahizi@gmail.com)
-
-[Nkezabahizi](obededomnkezabahizi@gmail.com)
