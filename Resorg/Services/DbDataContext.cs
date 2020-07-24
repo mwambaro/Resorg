@@ -10,11 +10,14 @@ namespace Resorg.Services
     {
         public DbSet<Resres> Resreses { get; set; }
         public DbSet<Note> Notes { get; set; }
-        private string _databasePath;
+        private string _databasePath = "resresources.db";
 
-        public DbDataContext(string databasePath)
+        public DbDataContext(string databasePath=null)
         {
-            _databasePath = databasePath;
+            if (!string.IsNullOrEmpty(databasePath)) 
+            {
+                _databasePath = databasePath;
+            }
             SQLitePCL.Batteries_V2.Init();
             this.Database.EnsureCreated();
         }

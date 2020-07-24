@@ -12,14 +12,25 @@
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
-        <StackLayout>
-            <Editor Placeholder="Resource title">
-            </Editor>
-            <Editor Placeholder="Subject">
-            </Editor>
-            <Editor Placeholder="Field">
-            </Editor>
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
+        <StackLayout HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="Center">
+            <Entry Text="{Binding ResourceTitle}" Placeholder="Resource Title" FontSize="Small" />
+            <Entry Text="{Binding ResourceUri}" Placeholder="Resource URI" FontSize="Small" />
+            <Editor Text="{Binding ResourceTags}" Placeholder="Resource tags" FontSize="Small" Margin="0" />
+            <Picker x:Name="CategoriesPicker"
+                    ItemsSource="{Binding Categories, Mode=TwoWay}" 
+                    FontSize="Small" SelectedIndex="0"
+                    Margin="0"/>
+            <Picker x:Name="SubjectsPicker"
+                    ItemsSource="{Binding Subjects, Mode=TwoWay}" 
+                    FontSize="Small" SelectedIndex="0"
+                    Margin="0"/>
+            <Picker x:Name="FieldsPicker"
+                    ItemsSource="{Binding Fields, Mode=TwoWay}" 
+                    FontSize="Small" SelectedIndex="0"
+                    Margin="0"/>
         </StackLayout>
     </StackLayout>
     

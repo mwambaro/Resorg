@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Resorg.UWP</DisplayName>
-    <PublisherDisplayName>f68e9f2a-9fc8-4f4b-9612-53a46fa5c8b7</PublisherDisplayName>
+    <DisplayName>Research Resources Organization (Resorg)</DisplayName>
+    <PublisherDisplayName>Obed-Edom Nkezabahizi</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,11 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Resorg.UWP.App">
       <uap:VisualElements
-        DisplayName="Resorg.UWP"
+        DisplayName="Research Resources Organization (Resorg)"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Resorg.UWP"
-        BackgroundColor="transparent">
+        BackgroundColor="transparent" Description="Research Resources Organization App. It helps you keep track of your research works and personal study results. It assists you in remembering things you learn during your research work.">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
@@ -45,6 +44,11 @@
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="landscapeFlipped"/>
+          <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
