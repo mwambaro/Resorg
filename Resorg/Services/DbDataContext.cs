@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Xamarin.Essentials;
+using Resorg.Entities;
 
 namespace Resorg.Services
 {
@@ -11,7 +12,7 @@ namespace Resorg.Services
         public DbSet<Note> Notes { get; set; }
         private string _databasePath;
 
-        public DatabaseContext(string databasePath)
+        public DbDataContext(string databasePath)
         {
             _databasePath = databasePath;
             SQLitePCL.Batteries_V2.Init();
