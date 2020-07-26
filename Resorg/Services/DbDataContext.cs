@@ -27,8 +27,6 @@ namespace Resorg.Services
             {
                 _databasePath = databasePath;
             }
-            SQLitePCL.Batteries_V2.Init();
-            this.Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

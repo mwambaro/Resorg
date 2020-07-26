@@ -69,13 +69,15 @@ namespace Resorg.Services
                     count += 1;
                 }
 
+                //System.Diagnostics.Debug.WriteLine($"Research Resources in MEM: {resreses.Count()} [Note: {resreses[1].Notes[0].Text}]");
+
                 db = new DbDataContext();
                 db.Database.EnsureCreated();
-                foreach (Resres res in resreses)
-                { 
-                    await db.AddAsync(res);
-                }
-                await db.SaveChangesAsync();
+                db.Resreses.AddRange(resreses);
+
+                System.Diagnostics.Debug.WriteLine($"Research Resources in MEM: {resreses.Count()} [Note: {resreses[1].Notes[0].Text}]");
+
+                db.SaveChanges();
 
                 System.Diagnostics.Debug.WriteLine($"Research Resources in DB: {db.Resreses.Count()}");
             }
