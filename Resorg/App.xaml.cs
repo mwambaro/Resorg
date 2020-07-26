@@ -14,6 +14,12 @@ namespace Resorg
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<MockResresStore>();
+            DependencyService.Register<MockSubjectStore>();
+            DependencyService.Register<MockFieldStore>();
+            DependencyService.Register<MockNoteStore>();
+            DependencyService.Register<MockTagStore>();
+            DependencyService.Register<MockCategoryStore>();
             MainPage = new MainPage();
         }
 

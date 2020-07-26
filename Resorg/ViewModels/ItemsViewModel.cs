@@ -6,49 +6,27 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-using Resorg.Models;
+using Resorg.Entities;
 using Resorg.Views;
 
 namespace Resorg.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<Resres> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public List<string> Categories { get; set; } = new List<string>();
-        public List<string> Subjects { get; set; } = new List<string>();
-        public List<string> Fields { get; set; } = new List<string>();
-        public string ResourceUri { get; set; }
-        public string ResourceTitle { get; set; }
-        public string ResourceTags { get; set; }
-
-        public ItemsViewModel()
+        public ItemsViewModel(): base()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Resres>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            
-            Categories.Add("Business and Management/Leadership");
-            Categories.Add("Education");
-            Categories.Add("Enterprise Management");
-            Categories.Add("Humanities/Philosophy");
 
-            Subjects.Add("Physics");
-            Subjects.Add("Chemistry");
-            Subjects.Add("Biology");
-            Subjects.Add("Mathematics");
-
-            Fields.Add("Electronics");
-            Fields.Add("Mechanics");
-            Fields.Add("Electrotechniques");
-            Fields.Add("Computer Sciences");
-
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewItemPage, Resres>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
+                var newItem = item as Resres;
                 Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                await ResresStore.AddItemAsync(newItem);
             });
         }
 
@@ -62,10 +40,13 @@ namespace Resorg.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                var items = await ResresStore.GetItemsAsync(true);
+                if (null != items)
                 {
-                    Items.Add(item);
+                    foreach (var item in items)
+                    {
+                        Items.Add(item);
+                    }
                 }
             }
             catch (Exception ex)

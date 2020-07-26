@@ -1,7 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
+
+using Xamarin.Forms;
 using Xamarin.Essentials;
+
 using Resorg.Entities;
 
 namespace Resorg.Services
@@ -10,7 +14,12 @@ namespace Resorg.Services
     {
         public DbSet<Resres> Resreses { get; set; }
         public DbSet<Note> Notes { get; set; }
-        private string _databasePath = "resresources.db";
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Field> Fields { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        private string _databasePath = "ResResources.db3";
 
         public DbDataContext(string databasePath=null)
         {
@@ -24,8 +33,18 @@ namespace Resorg.Services
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, _databasePath);
-            optionsBuilder.UseSqlite($"Filename={dbPath}");
+            try
+            {
+                ILocalPath path = DependencyService.Get<ILocalPath>();
+                string dbPath = path.DatabasePath(_databasePath);
+                if (string.IsNullOrEmpty(dbPath)) throw new Exception("ILocalPath.DatabasePath: returned null reference");
+
+                optionsBuilder.UseSqlite($"Filename={dbPath}");
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
     }

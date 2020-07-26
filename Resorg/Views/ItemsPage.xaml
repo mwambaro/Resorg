@@ -16,21 +16,27 @@
                  VerticalOptions="Center">
         <StackLayout HorizontalOptions="CenterAndExpand"
                      VerticalOptions="Center">
-            <Entry Text="{Binding ResourceTitle}" Placeholder="Resource Title" FontSize="Small" />
-            <Entry Text="{Binding ResourceUri}" Placeholder="Resource URI" FontSize="Small" />
-            <Editor Text="{Binding ResourceTags}" Placeholder="Resource tags" FontSize="Small" Margin="0" />
-            <Picker x:Name="CategoriesPicker"
-                    ItemsSource="{Binding Categories, Mode=TwoWay}" 
-                    FontSize="Small" SelectedIndex="0"
-                    Margin="0"/>
-            <Picker x:Name="SubjectsPicker"
-                    ItemsSource="{Binding Subjects, Mode=TwoWay}" 
-                    FontSize="Small" SelectedIndex="0"
-                    Margin="0"/>
-            <Picker x:Name="FieldsPicker"
-                    ItemsSource="{Binding Fields, Mode=TwoWay}" 
-                    FontSize="Small" SelectedIndex="0"
-                    Margin="0"/>
+            <CollectionView ItemsSource="{Binding Items}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical">
+                            <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="10">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                                        <Label Text="{Binding Subject.Text}" FontSize="Small"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Field: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                                        <Label Text="{Binding Field.Text}" FontSize="Small"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </StackLayout>
     

@@ -4,10 +4,12 @@ using System.Globalization;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 using Resorg.Models;
 using Resorg.Entities;
 using Resorg.Services;
+using Resorg.ViewModels;
 
 namespace Resorg.Views
 {
@@ -17,30 +19,16 @@ namespace Resorg.Views
     public partial class NewItemPage : ContentPage
     {
         public Item Item { get; set; }
-        public Resres Resource { get; set; }
-        public List<string> Categories { get; set; } = new List<string>();
-        public List<string> Subjects { get; set; } = new List<string>();
-        public List<string> Fields { get; set; } = new List<string>();
-        public string ResourceTags { get; set; }
+        public Resres Resource { get; set; } = new Resres();
+        public List<Category> Categories { get; set; } = new List<Category>();
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
+        public List<Field> Fields { get; set; } = new List<Field>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<Note> Notes { get; set; } = new List<Note>();
 
         public NewItemPage()
         {
             InitializeComponent();
-
-            Item = new Item
-            {
-                Text = "Item name",
-                Description = "This is an item description."
-            };
-            Resource = new Resres
-            {
-                Title = "This is a Resource",
-                Culture = new CultureInfo("en-US"),
-                Uri = "https://localhost/resreses/resource.pdf"
-            };
-
-            Entries();
-
             BindingContext = this;
         }
 
@@ -48,31 +36,8 @@ namespace Resorg.Views
         {
             try
             {
-                using (var db = new DbDataContext())
-                {
-                    List<string> categories = new List<string>();
-                    categories.Add((string)CategoriesPicker.SelectedItem);
-                    Resource.Categories = categories;
-                    Resource.Subject = (string)SubjectsPicker.SelectedItem;
-                    Resource.Field = (string)FieldsPicker.SelectedItem;
-                    var tags = ResourceTags.Split(',');
-
-                    foreach (string s in tags)
-                    {
-                        if (null == Resource.Tags)
-                        {
-                            Resource.Tags = new List<string>();
-                        }
-                        Resource.Tags.Add(s);
-                    }
-
-                    db.Add(Resource);
-                    await db.SaveChangesAsync();
-                }
-
-                await DisplayAlert("Database", "Successfully strored resource", "OK");
-
-                await Navigation.PopModalAsync();
+                await UpdateResource(sender, e);
+                MessagingCenter.Send<NewItemPage, Resres>(this, "AddItem", Resource);
             }
             catch(Exception ex)
             {
@@ -85,22 +50,88 @@ namespace Resorg.Views
             await Navigation.PopModalAsync();
         }
 
-        void Entries()
+        protected override void OnAppearing()
         {
-            Categories.Add("Business and Management/Leadership");
-            Categories.Add("Education");
-            Categories.Add("Enterprise Management");
-            Categories.Add("Humanities/Philosophy");
+            base.OnAppearing();
 
-            Subjects.Add("Physics");
-            Subjects.Add("Chemistry");
-            Subjects.Add("Biology");
-            Subjects.Add("Mathematics");
+            EntityStores();
+        }
 
-            Fields.Add("Electronics");
-            Fields.Add("Mechanics");
-            Fields.Add("Electrotechniques");
-            Fields.Add("Computer Sciences");
+        async Task<bool> UpdateResource(object sender, EventArgs e)
+        {
+            bool val = true;
+
+            try
+            { 
+
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return await Task.FromResult(val);
+        }
+
+        async void EntityStores()
+        {
+            try
+            {
+                var bs = new BaseViewModel();
+                var categories = await bs.CategoryStore.GetItemsAsync();
+                if(null != categories)
+                {
+                    Categories.Clear();
+                    foreach(Category c in categories)
+                    {
+                        Categories.Add(c);
+                    }
+                }
+
+                var subjects = await bs.SubjectStore.GetItemsAsync();
+                if (null != subjects)
+                {
+                    Subjects.Clear();
+                    foreach (Subject s in subjects)
+                    {
+                        Subjects.Add(s);
+                    }
+                }
+
+                var fields = await bs.FieldStore.GetItemsAsync();
+                if (null != fields)
+                {
+                    Fields.Clear();
+                    foreach (Field f in fields)
+                    {
+                        Fields.Add(f);
+                    }
+                }
+
+                var notes = await bs.NoteStore.GetItemsAsync();
+                if (null != notes)
+                {
+                    Notes.Clear();
+                    foreach (Note n in notes)
+                    {
+                        Notes.Add(n);
+                    }
+                }
+
+                var tags = await bs.TagStore.GetItemsAsync();
+                if (null != tags)
+                {
+                    Tags.Clear();
+                    foreach (Tag t in tags)
+                    {
+                        Tags.Add(t);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
     }
 }

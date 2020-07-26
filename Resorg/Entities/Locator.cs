@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Resorg.Models
+namespace Resorg.Entities
 {
     public class Locator
     {
         public int PageNumber { get; set; }
         public int ParagraphNumber { get; set; }
         public string Section { get; set; }
+        [Key]
+        public string Id { get; set; }
     }
 }

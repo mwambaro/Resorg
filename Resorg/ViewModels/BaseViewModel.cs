@@ -10,16 +10,12 @@ using Resorg.Services;
 
 namespace Resorg.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : Dependency, INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
-        bool isBusy = false;
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
-        }
+        public BaseViewModel(): base(true)
+        { }
 
         string title = string.Empty;
         public string Title
