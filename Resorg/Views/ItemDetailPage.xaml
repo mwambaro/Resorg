@@ -8,8 +8,8 @@
              Title="{Binding Title}">
 
     <StackLayout Spacing="20" Padding="15"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="Center">
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="CenterAndExpand">
         <StackLayout Padding="10">
             <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
                 <StackLayout Orientation="Vertical" BackgroundColor="White">

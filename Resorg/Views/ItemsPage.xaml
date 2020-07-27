@@ -12,16 +12,17 @@
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="Center">
-        <StackLayout HorizontalOptions="CenterAndExpand"
-                     VerticalOptions="Center">
+    <StackLayout HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                     Orientation="Vertical">
             <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
                 <ListView ItemsSource="{Binding Items}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Padding="5">
+                                <StackLayout Padding="10" Orientation="Vertical">
                                     <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
                                         <StackLayout Orientation="Vertical" BackgroundColor="White">
                                             <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
