@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using Resorg.Models;
+using Resorg.Entities;
 using Resorg.Views;
 using Resorg.ViewModels;
 
@@ -27,16 +29,20 @@ namespace Resorg.Views
             BindingContext = viewModel = new ItemsViewModel();
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        async void OnItemSelected(object sender, EventArgs e)
         {
-            var item = args.SelectedItem as Item;
+            /*SelectedItemChangedEventArgs args = e as SelectedItemChangedEventArgs;
+            var item = args.SelectedItem as Resres;
             if (item == null)
                 return;
 
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
             // Manually deselect item.
-            //ItemsListView.SelectedItem = null;
+            //ItemsListView.SelectedItem = null;*/
+            var layout = (BindableObject)sender;
+            var item = (Resres)layout.BindingContext;
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

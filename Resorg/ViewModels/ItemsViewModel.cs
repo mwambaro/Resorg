@@ -47,6 +47,11 @@ namespace Resorg.ViewModels
                     {
                         Items.Add(item);
                     }
+                    Debug.WriteLine($"ResresStore: {Items.Count} resources found");
+                }
+                else 
+                {
+                    Debug.WriteLine("ResresStore: No items found.");
                 }
             }
             catch (Exception ex)

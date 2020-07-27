@@ -16,27 +16,34 @@
                  VerticalOptions="Center">
         <StackLayout HorizontalOptions="CenterAndExpand"
                      VerticalOptions="Center">
-            <CollectionView ItemsSource="{Binding Items}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Vertical">
-                            <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="10">
-                                <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
-                                        <Label Text="{Binding Subject.Text}" FontSize="Small"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Field: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
-                                        <Label Text="{Binding Field.Text}" FontSize="Small"/>
-                                    </StackLayout>
+            <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
+                <ListView ItemsSource="{Binding Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="5">
+                                    <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
+                                        <StackLayout Orientation="Vertical" BackgroundColor="White">
+                                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                                                <Label Text="{Binding Subject.Text}" FontSize="Small"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Field: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                                                <Label Text="{Binding Field.Text}" FontSize="Small"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame><!---->
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers><!---->
                                 </StackLayout>
-                            </Frame>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RefreshView>
         </StackLayout>
     </StackLayout>
     

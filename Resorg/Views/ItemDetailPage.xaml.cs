@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,11 +28,7 @@ namespace Resorg.Views
         {
             InitializeComponent();
 
-            var item = new Item
-            {
-                Text = "Item 1",
-                Description = "This is an item description."
-            };
+            var item = viewModel.ResresStore.GetItemsAsync().Result.FirstOrDefault();
 
             viewModel = new ItemDetailViewModel(item);
             BindingContext = viewModel;

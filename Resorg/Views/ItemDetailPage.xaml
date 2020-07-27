@@ -7,11 +7,24 @@
              x:Class="Resorg.Views.ItemDetailPage"
              Title="{Binding Title}">
 
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Text}" d:Text="Item name" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small"/>
+    <StackLayout Spacing="20" Padding="15"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
+        <StackLayout Padding="10">
+            <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
+                <StackLayout Orientation="Vertical" BackgroundColor="White">
+                    <Label Text="{Binding Item.Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                        <Label Text="{Binding Item.Subject.Text}" FontSize="Small"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Field: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                        <Label Text="{Binding Item.Field.Text}" FontSize="Small"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
     </StackLayout>
     
 </ContentPage>

@@ -1,15 +1,16 @@
 ﻿using System;
 
 using Resorg.Models;
+using Resorg.Entities;
 
 namespace Resorg.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-        public Item Item { get; set; }
-        public ItemDetailViewModel(Item item = null)
+        public Resres Item { get; set; }
+        public ItemDetailViewModel(Resres item = null)
         {
-            Title = item?.Text;
+            Title = item?.Title;
             Item = item;
         }
     }

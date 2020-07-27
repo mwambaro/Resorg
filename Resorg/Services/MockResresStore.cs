@@ -117,10 +117,21 @@ namespace Resorg.Services
 
             try
             {
+                if(null == resres)
+                {
+                    val = false;
+                    return await Task.FromResult(val);
+                }
+
                 if (null == db) MockCommand.Execute(null);
                 if (null == db) throw new Exception("UpdateItemAsync<Resres>: Database was not created");
 
                 var oldItem = db.Resreses.Find(resres.Id);
+                if (null == oldItem)
+                {
+                    oldItem = resreses.Where((Resres arg) => arg.Id == resres.Id).FirstOrDefault();
+                }
+
                 if (null != oldItem)
                 {
                     resreses.Remove(oldItem);
@@ -148,6 +159,11 @@ namespace Resorg.Services
                 if (null == db) throw new Exception("DeleteItemAsync<Resres>: Database was not created");
 
                 var oldItem = db.Resreses.Find(id);
+                if (null == oldItem)
+                {
+                    oldItem = resreses.Where((Resres arg) => arg.Id == id).FirstOrDefault();
+                }
+
                 if (null != oldItem)
                 {
                     resreses.Remove(oldItem);
@@ -173,6 +189,10 @@ namespace Resorg.Services
                 if (null == db) throw new Exception("GetItemAsync<Resres>: Database was not created");
 
                 item = await Task.FromResult(db.Resreses.Find(id));
+                if(null == item)
+                {
+                    item = await Task.FromResult(resreses.FirstOrDefault(s => s.Id == id));
+                }
             }
             catch (Exception ex)
             {
@@ -192,6 +212,10 @@ namespace Resorg.Services
                 if (null == db) throw new Exception("GetItemsAsync<Resres>: Database was not created");
 
                 _resreses = await Task.FromResult(db.Resreses.ToList());
+                if (null == _resreses || _resreses?.Count() == 0)
+                {
+                    _resreses = await Task.FromResult(resreses);
+                }
             }
             catch (Exception ex)
             {
