@@ -12,7 +12,6 @@ namespace Resorg.ViewModels
 {
     public class BaseViewModel : Dependency, INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         public BaseViewModel(): base(true)
         { }

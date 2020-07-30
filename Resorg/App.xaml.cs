@@ -13,7 +13,6 @@ namespace Resorg
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             DependencyService.Register<MockResresStore>();
             DependencyService.Register<MockSubjectStore>();
             DependencyService.Register<MockFieldStore>();

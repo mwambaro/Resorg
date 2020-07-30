@@ -10,18 +10,16 @@ using Resorg.Entities;
 
 namespace Resorg.Services
 {
-    public class MockNoteStore : IDataStore<Note>
+    public class MockNoteStore : DataStore<Note>
     {
-        List<Note> notes;
-        DbDataContext db;
         public Command MockCommand { get; set; }
 
         public MockNoteStore ()
         {
-            MockCommand = new Command(async () => await Mock());
+            MockCommand = new Command(async () => await MockNotes());
         }
 
-        async Task<bool> Mock()
+        async Task<bool> MockNotes()
         {
             bool val = true;
 
@@ -38,7 +36,7 @@ namespace Resorg.Services
                     "On this battlefield we live or die until our goals are achieved!"
                 };
 
-                notes = new List<Note>
+                var notes = new List<Note>
                 {
                     new Note { Id = Guid.NewGuid().ToString(), Text = texts[0], Language = "English", Location = new Locator { Id = Guid.NewGuid().ToString(), PageNumber = 23, ParagraphNumber = 5, Section = "Introduction"} },
                     new Note { Id = Guid.NewGuid().ToString(), Text = texts[1], Language = "English", Location = new Locator { Id = Guid.NewGuid().ToString(), PageNumber = 133, ParagraphNumber = 2, Section = "Frequently Asked Questions"} },
@@ -49,13 +47,7 @@ namespace Resorg.Services
                     new Note { Id = Guid.NewGuid().ToString(), Text = texts[6], Language = "English", Location = new Locator { Id = Guid.NewGuid().ToString(), PageNumber = 240, ParagraphNumber = 7, Section = "The Resolution"} }
                 };
 
-                db = new DbDataContext();
-                db.Database.EnsureCreated();
-                foreach (Note t in notes)
-                {
-                    await db.AddAsync(t);
-                }
-                await db.SaveChangesAsync();
+                Mock(notes);
             }
             catch(Exception ex)
             {
@@ -64,118 +56,6 @@ namespace Resorg.Services
             }
 
             return await Task.FromResult(val);
-        }
-
-        public async Task<bool> AddItemAsync(Note category)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("AddItemAsync<Note>: Database was not created");
-
-                notes.Add(category);
-                db.Notes.Add(category);
-                await db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<bool> UpdateItemAsync(Note category)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("UpdateItemAsync<Note>: Database was not created");
-
-                var oldItem = db.Notes.Find(category.Id);
-                if (null != oldItem)
-                {
-                    notes.Remove(oldItem);
-                }
-                notes.Add(category);
-                db.Notes.Update(category);
-                await db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<bool> DeleteItemAsync(string id)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("DeleteItemAsync<Note>: Database was not created");
-
-                var oldItem = db.Notes.Find(id);
-                if (null != oldItem)
-                {
-                    notes.Remove(oldItem);
-                    db.Notes.Remove(oldItem);
-                    await db.SaveChangesAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<Note> GetItemAsync(string id)
-        {
-            Note item = null;
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("GetItemAsync<Note>: Database was not created");
-
-                item = await Task.FromResult(db.Notes.Find(id));
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                item = null;
-            }
-
-            return await Task.FromResult(item);
-        }
-
-        public async Task<IEnumerable<Note>> GetItemsAsync(bool forceRefresh = false)
-        {
-            IEnumerable<Note> _notes = null;
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("GetItemsAsync<Note>: Database was not created");
-
-                _notes = await Task.FromResult(db.Notes.ToList());
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-
-            return await Task.FromResult(_notes);
         }
     }
 }

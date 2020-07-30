@@ -10,17 +10,15 @@ using Resorg.Entities;
 
 namespace Resorg.Services
 {
-    public class MockCategoryStore : IDataStore<Category>
+    public class MockCategoryStore : DataStore<Category>
     {
-        List<Category> categories;
-        DbDataContext db;
         public Command MockCommand { get; set; }
         public MockCategoryStore()
         {
-            MockCommand = new Command(async () => await Mock());
+            MockCommand = new Command(async () => await MockCategories());
         }
 
-        async Task<bool> Mock()
+        async Task<bool> MockCategories()
         {
             bool val = true;
 
@@ -37,7 +35,7 @@ namespace Resorg.Services
                     "Electrical Schemas Design"
                 };
 
-                categories = new List<Category>
+                var categories = new List<Category>
                 {
                     new Category { Id = Guid.NewGuid().ToString(), Text = texts[0], Language = "English"},
                     new Category { Id = Guid.NewGuid().ToString(), Text = texts[1], Language = "English"},
@@ -48,13 +46,7 @@ namespace Resorg.Services
                     new Category { Id = Guid.NewGuid().ToString(), Text = texts[6], Language = "English"}
                 };
 
-                db = new DbDataContext();
-                db.Database.EnsureCreated();
-                foreach (Category c in categories)
-                {
-                    await db.AddAsync(c);
-                }
-                await db.SaveChangesAsync();
+                Mock(categories);
             }
             catch(Exception ex)
             {
@@ -63,118 +55,6 @@ namespace Resorg.Services
             }
 
             return await Task.FromResult(val);
-        }
-
-        public async Task<bool> AddItemAsync(Category category)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("AddItemAsync<Category>: Database was not created");
-
-                categories.Add(category);
-                db.Categories.Add(category);
-                await db.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<bool> UpdateItemAsync(Category category)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("UpdateItemAsync<Category>: Database was not created");
-
-                var oldItem = db.Categories.Find(category.Id);
-                if (null != oldItem)
-                {
-                    categories.Remove(oldItem);
-                }
-                categories.Add(category);
-                db.Categories.Update(category);
-                await db.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<bool> DeleteItemAsync(string id)
-        {
-            bool val = true;
-
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("DeleteItemAsync<Category>: Database was not created");
-
-                var oldItem = db.Categories.Find(id);
-                if (null != oldItem)
-                {
-                    categories.Remove(oldItem);
-                    db.Categories.Remove(oldItem);
-                    await db.SaveChangesAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                val = false;
-            }
-
-            return await Task.FromResult(val);
-        }
-
-        public async Task<Category> GetItemAsync(string id)
-        {
-            Category item = null;
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("GetItemAsync<Category>: Database was not created");
-
-                item = await Task.FromResult(db.Categories.Find(id));
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                item = null;
-            }
-
-            return await Task.FromResult(item);
-        }
-
-        public async Task<IEnumerable<Category>> GetItemsAsync(bool forceRefresh = false)
-        {
-            IEnumerable<Category> _categories = null;
-            try
-            {
-                if (null == db) MockCommand.Execute(null);
-                if (null == db) throw new Exception("GetItemsAsync<Category>: Database was not created");
-
-                _categories = await Task.FromResult(db.Categories.ToList());
-            }
-            catch(Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-
-            return await Task.FromResult(_categories);
         }
     }
 }

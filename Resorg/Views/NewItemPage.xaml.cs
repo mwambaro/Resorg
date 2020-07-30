@@ -18,7 +18,6 @@ namespace Resorg.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
         public Resres Resource { get; set; } = new Resres();
         public List<Category> Categories { get; set; } = new List<Category>();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
