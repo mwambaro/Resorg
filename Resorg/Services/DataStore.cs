@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 using Xamarin.Forms;
 
@@ -28,10 +29,15 @@ namespace Resorg.Services
         {
             try
             {
+                items = _items;
                 T item = default;
                 if (null == db) throw new Exception($"Mock<{item.GetType().Name}>: Database was not created");
-
-                await db.AddRangeAsync(_items);
+             
+                foreach (T i in _items)
+                {
+                    db.Add(i);
+                    await Task.Delay(200);
+                }
                 await db.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -137,7 +143,7 @@ namespace Resorg.Services
 
         public async Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false)
         {
-            IEnumerable<T> _items = null;
+            IEnumerable<T> _items = items;
             T item = default;
 
             try
@@ -147,7 +153,7 @@ namespace Resorg.Services
                 // TODO: Pluralize class name conveniently
                 string _class = $"{item.GetType().Name}s"; 
                 IEnumerable<T> _dbItems = ((IEnumerable<T>)db.GetType().GetProperty(_class).GetValue(db)).ToList();
-                _items = await Task.FromResult(_dbItems);
+                _items = null == _dbItems ? items : await Task.FromResult(_dbItems);
             }
             catch (Exception ex)
             {
