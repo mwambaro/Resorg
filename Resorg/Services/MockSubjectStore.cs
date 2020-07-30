@@ -14,7 +14,7 @@ namespace Resorg.Services
     {
         public Command MockCommand { get; set; }
 
-        public MockSubjectStore()
+        public MockSubjectStore(): base(null, null)
         {
             MockCommand = new Command(async () => await MockSubjects());
         }

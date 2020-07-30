@@ -13,7 +13,7 @@ namespace Resorg.Services
     public class MockCategoryStore : DataStore<Category>
     {
         public Command MockCommand { get; set; }
-        public MockCategoryStore()
+        public MockCategoryStore(): base(null, null)
         {
             MockCommand = new Command(async () => await MockCategories());
         }

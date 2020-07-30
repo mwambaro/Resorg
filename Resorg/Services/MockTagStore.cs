@@ -15,7 +15,7 @@ namespace Resorg.Services
         
         public Command MockCommand { get; set; }
 
-        public MockTagStore()
+        public MockTagStore(): base(null, null)
         {
             MockCommand = new Command(async () => await MockTags());
         }

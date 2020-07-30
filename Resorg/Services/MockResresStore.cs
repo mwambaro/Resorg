@@ -22,9 +22,9 @@ namespace Resorg.Services
         Dependency stores;
         public Command MockCommand { get; set; }
 
-        public MockResresStore()
+        public MockResresStore(): base(null, null)
         {
-            stores = new Dependency();
+            stores = new Dependency(false);
             MockCommand = new Command(async () => await MockResreses());
         }
 

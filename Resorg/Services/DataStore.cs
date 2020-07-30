@@ -18,11 +18,17 @@ namespace Resorg.Services
         List<T> items;
         DbDataContext db;
 
-        public DataStore()
+        public DataStore(string dbName=null, DbDataContext dbs=null)
         {
             items = new List<T>();
-            db = new DbDataContext();
-            db.Database.EnsureCreated();
+            if (null == dbs)
+            {
+                db = new DbDataContext(dbName);
+            }
+            else
+            {
+                db = dbs;
+            }
         }
 
         public async void Mock(List<T> _items)
@@ -32,7 +38,8 @@ namespace Resorg.Services
                 items = _items;
                 T item = default;
                 if (null == db) throw new Exception($"Mock<{item.GetType().Name}>: Database was not created");
-             
+                db.Database.EnsureCreated();
+
                 foreach (T i in _items)
                 {
                     db.Add(i);
@@ -52,7 +59,15 @@ namespace Resorg.Services
 
             try
             {
-                if (null == db) throw new Exception($"AddItemAsync<{item.GetType().Name}>: Database was not created");
+                if(null == item)
+                {
+                    throw new Exception($"AddItemAsync<{typeof(T).Name}>: null reference param");
+                }
+                if (null == db)
+                {
+                    throw new Exception($"AddItemAsync<{typeof(T).Name}>: Database was not created");
+                }
+                db.Database.EnsureCreated();
 
                 items.Add(item);
                 db.Add(item);
@@ -73,10 +88,24 @@ namespace Resorg.Services
 
             try
             {
-                if (null == db) throw new Exception($"UpdateItemAsync<{item.GetType().Name}>: Database was not created");
+                if(null == item)
+                {
+                    throw new Exception($"UpdateItemAsync<{typeof(T).Name}>: Null reference param");
+                }
+
+                if (null == db)
+                {
+                    throw new Exception($"UpdateItemAsync<{typeof(T).Name}>: Database was not created");
+                }
+                db.Database.EnsureCreated();
 
                 string id = (string)item.GetType().GetProperty("Id").GetValue(item);
-                T oldItem = (T)db.Find(item.GetType(), id);
+                T oldItem = items.FirstOrDefault(s => (string)typeof(T).GetProperty("Id").GetValue(s) == id);
+
+                if (null == oldItem)
+                {
+                    oldItem = (T)db.Find(typeof(T), id);
+                }
                 if (null != oldItem)
                 {
                     items.Remove(oldItem);
@@ -101,10 +130,18 @@ namespace Resorg.Services
 
             try
             {
-                T item = default;
-                if (null == db) throw new Exception($"DeleteItemAsync<{item.GetType()}>: Database was not created");
+                if (null == db)
+                {
+                    throw new Exception($"DeleteItemAsync<{typeof(T).Name}>: Database was not created");
+                }
+                db.Database.EnsureCreated();
 
-                T oldItem = (T)db.Find(item.GetType(), id);
+                T oldItem = items.FirstOrDefault(s => (string)typeof(T).GetProperty("Id").GetValue(s) == id);
+
+                if (null == oldItem)
+                {
+                    oldItem = (T)db.Find(typeof(T), id);
+                }
                 if (null != oldItem)
                 {
                     items.Remove(oldItem);
@@ -127,9 +164,15 @@ namespace Resorg.Services
             
             try
             {
-                if (null == db) throw new Exception($"GetItemAsync<{item.GetType()}>: Database was not created");
+                if (null == db)
+                {
+                    throw new Exception($"GetItemAsync<{typeof(T).Name}>: Database was not created");
+                }
+                db.Database.EnsureCreated();
 
-                T oldItem = (T)db.Find(item.GetType(), id);
+                T oldItem = items.FirstOrDefault(s => (string)typeof(T).GetProperty("Id").GetValue(s) == id);
+
+                if(null == oldItem) oldItem = (T)db.Find(item.GetType(), id);
                 item = await Task.FromResult(oldItem);
             }
             catch (Exception ex)
@@ -144,15 +187,36 @@ namespace Resorg.Services
         public async Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false)
         {
             IEnumerable<T> _items = items;
-            T item = default;
 
             try
             {
-                if (null == db) throw new Exception($"GetItemsAsync<{item.GetType()}>: Database was not created");
+                if (null == db)
+                {
+                    throw new Exception($"GetItemsAsync<{typeof(T).Name}>: Database was not created");
+                }
+                db.Database.EnsureCreated();
 
                 // TODO: Pluralize class name conveniently
-                string _class = $"{item.GetType().Name}s"; 
-                IEnumerable<T> _dbItems = ((IEnumerable<T>)db.GetType().GetProperty(_class).GetValue(db)).ToList();
+                string _class = $"{typeof(T).Name}s";
+                var propertyInfo = db.GetType().GetProperty(_class);
+
+                IEnumerable<T> _dbItems = null;
+                if (null != propertyInfo)
+                {
+                    IEnumerable<T> dbObject = (IEnumerable<T>)propertyInfo.GetValue(db);
+                    if (null != dbObject)
+                    {
+                        _dbItems = dbObject.ToList();
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Db: {_class} object is null reference");
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Db: {_class} not found as public member of database");
+                }
                 _items = null == _dbItems ? items : await Task.FromResult(_dbItems);
             }
             catch (Exception ex)
