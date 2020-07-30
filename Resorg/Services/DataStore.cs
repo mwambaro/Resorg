@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Xamarin.Forms;
 
+using Pluralize.NET;
+
 using Resorg.Entities;
 using Resorg.Models;
 
@@ -197,7 +199,8 @@ namespace Resorg.Services
                 db.Database.EnsureCreated();
 
                 // TODO: Pluralize class name conveniently
-                string _class = $"{typeof(T).Name}s";
+                IPluralize plural = new Pluralizer();
+                string _class = plural.Pluralize($"{typeof(T).Name}");
                 var propertyInfo = db.GetType().GetProperty(_class);
 
                 IEnumerable<T> _dbItems = null;

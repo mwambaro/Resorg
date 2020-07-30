@@ -10,9 +10,12 @@ using Resorg.Entities;
 
 namespace Resorg.Services
 {
+    /// <summary>
+    /// EF Core Database Usage. Please use dictionary-known words.
+    /// </summary>
     public class DbDataContext : DbContext
     {
-        public DbSet<Resres> Resreses { get; set; }
+        public DbSet<Resres> Resources { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Subject> Subjects { get; set; }
