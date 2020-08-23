@@ -11,9 +11,11 @@
                  HorizontalOptions="FillAndExpand"
                  VerticalOptions="CenterAndExpand">
         <StackLayout Padding="10">
-            <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
+            <Frame CornerRadius="5" BackgroundColor="#823687" Padding="5">
                 <StackLayout Orientation="Vertical" BackgroundColor="White">
-                    <Label Text="{Binding Item.Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                    <StackLayout BackgroundColor="#a1eddb">
+                        <Label Text="{Binding Item.Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
                         <Label Text="{Binding Item.Subject.Text}" FontSize="Small"/>

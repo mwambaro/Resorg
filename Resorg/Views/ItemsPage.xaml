@@ -23,9 +23,11 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Padding="10" Orientation="Vertical">
-                                    <Frame CornerRadius="5" BackgroundColor="LightGray" Padding="5">
+                                    <Frame CornerRadius="5" BackgroundColor="#96d0e0" Padding="5">
                                         <StackLayout Orientation="Vertical" BackgroundColor="White">
-                                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                                            <StackLayout BackgroundColor="#5fc2de">
+                                                <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Title" HorizontalTextAlignment="Start"/>
+                                            </StackLayout>
                                             <StackLayout Orientation="Horizontal">
                                                 <Label Text="Subject: " FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Start"/>
                                                 <Label Text="{Binding Subject.Text}" FontSize="Small"/>
